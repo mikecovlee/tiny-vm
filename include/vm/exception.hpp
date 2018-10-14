@@ -82,14 +82,15 @@ namespace vm {
 		{
 			if(level<0)
 				::printf("CovVM Fatal Error: %s\n", e->what());
-			else if(level>0) {
-				if(level>20)
-					::printf("CovVM Unknown Exception(Level=%d): %s\n", level, e->what());
-				else if(level>10)
-					::printf("CovVM Error: %s\n", e->what());
-				else
-					::printf("CovVM Warning: %s\n", e->what());
-			}
+			else if(level>20)
+				::printf("CovVM Unknown Exception(Level=%d): %s\n", level, e->what());
+			else if(level>10)
+				::printf("CovVM Error: %s\n", e->what());
+			else if(level>0)
+				::printf("CovVM Warning: %s\n", e->what());
+			else
+				::printf("CovVM Information: %s\n", e->what());
+			::fflush(::stdout);
 			return false;
 		}
 	});
