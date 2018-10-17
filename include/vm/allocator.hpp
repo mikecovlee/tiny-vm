@@ -42,8 +42,7 @@ namespace vm {
 			::free(reinterpret_cast<void*>(ptr));
 		}
 	} default_alloc;
-	class vm_object
-	{
+	class vm_object {
 	protected:
 		allocator_base* vm_obj_alloc=&default_alloc;
 	public:

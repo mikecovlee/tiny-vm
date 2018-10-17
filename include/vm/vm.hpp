@@ -32,7 +32,7 @@ namespace vm {
 		instruction_builder(instruction_builder&&) noexcept=default;
 		template<typename T, typename...ArgsT>instruction_builder(type_container<T>, ArgsT&&...args):iptr(vm_new<T>(std::forward<ArgsT>(args)...)) {}
 	};
-	class instruction_set final{
+	class instruction_set final {
 		std::unordered_map<byte_t, instruction_base*> m_set;
 	public:
 		instruction_set()=default;
@@ -95,26 +95,24 @@ namespace vm {
 		void assemble_bytecode(const char* path)
 		{
 			FILE* f=::fopen(path, "r+");
-			if(f==nullptr)
-			{
+			if(f==nullptr) {
 				vm_throw<std::runtime_error>(20, "File is not exists.");
 				return;
 			}
-			for(byte_t byte=::fgetc(f);byte!=EOF;byte=::fgetc(f))
-			{
+			for(byte_t byte=::fgetc(f); byte!=EOF; byte=::fgetc(f)) {
 				if(byte==0)
 					continue;
 				if(byte==255)
 					break;
 				instruction_base* ptr=inst_set->get_instruction(byte);
 				size_t count=ptr->get_args_byte_count();
-				if(count>0)
-				{
+				if(count>0) {
 					byte_t* buffer=alloc->malloc(count);
-					for(size_t i=0;i<count;++i)
+					for(size_t i=0; i<count; ++i)
 						buffer[i]=::fgetc(f);
 					assembly.emplace_back(ptr, buffer);
-				}else
+				}
+				else
 					assembly.emplace_back(ptr, nullptr);
 			}
 			::fclose(f);

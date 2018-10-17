@@ -11,7 +11,7 @@ namespace vm {
 	using size_t=uint32_t;
 	class instance_t;
 	class instruction_base;
-	template<typename T>struct type_container final{
+	template<typename T>struct type_container final {
 		using type=T;
 	};
 	template<typename T>T* ptr_remove_const(const T* ptr)
