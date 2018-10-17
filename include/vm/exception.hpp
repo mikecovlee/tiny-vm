@@ -90,7 +90,7 @@ namespace vm {
 				::printf("CovVM Warning: %s\n", e->what());
 			else
 				::printf("CovVM Information: %s\n", e->what());
-			::fflush(::stdout);
+			::fflush(stdout);
 			return false;
 		}
 	});

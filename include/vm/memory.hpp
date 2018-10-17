@@ -165,8 +165,10 @@ namespace vm {
 		}
 	};
 
-	class stack final:public memory_handler {
+	class stack final {
 	private:
+		// Allocator
+		allocator_base* m_alloc;
 		// Stack Start
 		byte_t *ss = nullptr;
 		// Stack Pointer
@@ -178,7 +180,7 @@ namespace vm {
 
 		stack(const stack &) = delete;
 
-		stack(size_t size, allocator_base* alloc=&default_alloc) : memory_handler(alloc), ss(alloc->malloc(size))
+		stack(size_t size, allocator_base* alloc=&default_alloc) : m_alloc(alloc), ss(alloc->malloc(size))
 		{
 			sp = ss + size;
 			sl = sp;

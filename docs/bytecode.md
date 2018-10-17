@@ -12,6 +12,7 @@
 |sub_i32|06|none|Subtract two element|
 |sub_i64|07|none|Subtract two element|
 |int|08|8:index|Call interrupt|
+|eof|ff|none|Mark the end of the file|
 
 ### Interrupts
 | Mnemonic | Opcode (in hex) | Other bytes ([count]: [operand labels]) | Description |
