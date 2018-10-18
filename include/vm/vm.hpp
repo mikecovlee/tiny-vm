@@ -62,6 +62,7 @@ namespace vm {
 	class instance_t {
 	protected:
 		stack m_stack;
+		size_t m_pc=1;
 	public:
 		instance_t()=delete;
 		instance_t(size_t stack_size, allocator_base* alloc=&default_alloc):m_stack(stack_size, alloc) {}
@@ -76,6 +77,22 @@ namespace vm {
 		byte_t* top()
 		{
 			return m_stack.top();
+		}
+		void jump(size_t index)
+		{
+			m_pc=index;
+		}
+		void rst_pc()
+		{
+			m_pc=1;
+		}
+		void inc_pc()
+		{
+			++m_pc;
+		}
+		size_t get_pc()
+		{
+			return m_pc-1;
 		}
 	};
 	class bytecode_interpreter final {
@@ -119,8 +136,8 @@ namespace vm {
 		}
 		void interpret()
 		{
-			for(auto& it:assembly)
-				it.first->execute(it.second, instance);
+			for(instance->rst_pc();instance->get_pc()<assembly.size();instance->inc_pc())
+				assembly[instance->get_pc()].first->execute(assembly[instance->get_pc()].second, instance);
 		}
 	};
 }
