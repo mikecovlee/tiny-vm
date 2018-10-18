@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 	/*
 	TISC ASM:
 	    push_i32 10000
-	    push_i32 100
+	    push_i32 1000
 	    mul_i32
 		loop: jmp_if $exit
 	    push_i32 1
@@ -30,10 +30,11 @@ int main(int argc, char** argv)
 		0x5,1,0,0,0,
 		0x9,
 		0x2,4,0,0,0,0,0,0,0,
+		0x1,1,
 		255
 	};
 	write_int(buffer+1, 10000);
-	write_int(buffer+6, 100);
+	write_int(buffer+6, 1000);
 	FILE* f=fopen(argv[1], "w+");
 	for(unsigned long i=0; i<sizeof(buffer); ++i)
 		fprintf(f, "%c", buffer[i]);
