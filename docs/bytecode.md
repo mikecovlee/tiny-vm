@@ -14,6 +14,10 @@
 |add_i64|08|none|Add two element|
 |sub_i32|09|none|Subtract two element|
 |sub_i64|0a|none|Subtract two element|
+|mul_i32|0b|none|Multiply two element|
+|mul_i64|0c|none|Multiply two element|
+|div_i32|0d|none|Divide two element|
+|div_i64|0e|none|Divide two element|
 |eof|ff|none|Mark the end of the file|
 
 ### Interrupts
