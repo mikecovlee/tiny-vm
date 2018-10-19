@@ -87,6 +87,22 @@ namespace vm {
 		}
 	};
 
+	class push_i64 final:public instruction_base {
+	public:
+		virtual void vm_obj_destroy() const override
+		{
+			this->~push_i64();
+		}
+		virtual size_t get_args_byte_count() const
+		{
+			return 8;
+		}
+		virtual void execute(byte_t* data, instance_t* inst)
+		{
+			inst->push(data, 8);
+		}
+	};
+
 	class add_i32 final:public instruction_base {
 	public:
 		virtual void vm_obj_destroy() const override
@@ -105,6 +121,27 @@ namespace vm {
 			inst->pop();
 			*a=*b+*a;
 			inst->push(reinterpret_cast<byte_t*>(a), 4);
+		}
+	};
+
+	class add_i64 final:public instruction_base {
+	public:
+		virtual void vm_obj_destroy() const override
+		{
+			this->~add_i64();
+		}
+		virtual size_t get_args_byte_count() const
+		{
+			return 0;
+		}
+		virtual void execute(byte_t*, instance_t* inst)
+		{
+			std::int64_t* a=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			std::int64_t* b=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			*a=*b+*a;
+			inst->push(reinterpret_cast<byte_t*>(a), 8);
 		}
 	};
 
@@ -129,6 +166,27 @@ namespace vm {
 		}
 	};
 
+	class sub_i64 final:public instruction_base {
+	public:
+		virtual void vm_obj_destroy() const override
+		{
+			this->~sub_i64();
+		}
+		virtual size_t get_args_byte_count() const
+		{
+			return 0;
+		}
+		virtual void execute(byte_t*, instance_t* inst)
+		{
+			std::int64_t* a=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			std::int64_t* b=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			*a=*b-*a;
+			inst->push(reinterpret_cast<byte_t*>(a), 8);
+		}
+	};
+
 	class mul_i32 final:public instruction_base {
 	public:
 		virtual void vm_obj_destroy() const override
@@ -150,6 +208,27 @@ namespace vm {
 		}
 	};
 
+	class mul_i64 final:public instruction_base {
+	public:
+		virtual void vm_obj_destroy() const override
+		{
+			this->~mul_i64();
+		}
+		virtual size_t get_args_byte_count() const
+		{
+			return 0;
+		}
+		virtual void execute(byte_t*, instance_t* inst)
+		{
+			std::int64_t* a=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			std::int64_t* b=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			*a=(*b)*(*a);
+			inst->push(reinterpret_cast<byte_t*>(a), 8);
+		}
+	};
+
 	class div_i32 final:public instruction_base {
 	public:
 		virtual void vm_obj_destroy() const override
@@ -168,6 +247,27 @@ namespace vm {
 			inst->pop();
 			*a=(*b)/(*a);
 			inst->push(reinterpret_cast<byte_t*>(a), 4);
+		}
+	};
+
+	class div_i64 final:public instruction_base {
+	public:
+		virtual void vm_obj_destroy() const override
+		{
+			this->~div_i64();
+		}
+		virtual size_t get_args_byte_count() const
+		{
+			return 0;
+		}
+		virtual void execute(byte_t*, instance_t* inst)
+		{
+			std::int64_t* a=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			std::int64_t* b=reinterpret_cast<std::int64_t*>(inst->top());
+			inst->pop();
+			*a=(*b)/(*a);
+			inst->push(reinterpret_cast<byte_t*>(a), 8);
 		}
 	};
 }

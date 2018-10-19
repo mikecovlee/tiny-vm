@@ -13,10 +13,15 @@ int main(int argc, char** argv)
 	.add_instruction(0x3, vm::instruction_builder(vm::type_container<vm::jump_if>()))
 	.add_instruction(0x4, vm::instruction_builder(vm::type_container<vm::pop>()))
 	.add_instruction(0x5, vm::instruction_builder(vm::type_container<vm::push_i32>()))
+	.add_instruction(0x6, vm::instruction_builder(vm::type_container<vm::push_i64>()))
 	.add_instruction(0x7, vm::instruction_builder(vm::type_container<vm::add_i32>()))
+	.add_instruction(0x8, vm::instruction_builder(vm::type_container<vm::add_i64>()))
 	.add_instruction(0x9, vm::instruction_builder(vm::type_container<vm::sub_i32>()))
+	.add_instruction(0xa, vm::instruction_builder(vm::type_container<vm::sub_i64>()))
 	.add_instruction(0xb, vm::instruction_builder(vm::type_container<vm::mul_i32>()))
-	.add_instruction(0xd, vm::instruction_builder(vm::type_container<vm::div_i32>()));
+	.add_instruction(0xc, vm::instruction_builder(vm::type_container<vm::mul_i64>()))
+	.add_instruction(0xd, vm::instruction_builder(vm::type_container<vm::div_i32>()))
+	.add_instruction(0xe, vm::instruction_builder(vm::type_container<vm::div_i64>()));
 	vm::instance_t instance(256);
 	vm::bytecode_interpreter interpreter(&vm::default_alloc, &tisc, &instance);
 	interpreter.assemble_bytecode(argv[1]);
