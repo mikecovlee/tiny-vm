@@ -50,8 +50,11 @@ namespace vm {
 		}
 		virtual void execute(byte_t* data, instance_t* inst)
 		{
-			if(*reinterpret_cast<size_t*>(inst->top())==0)
-				inst->jump(*reinterpret_cast<size_t*>(data));
+			byte_t* cond=inst->top();
+			for(size_t idx=0, count=inst->get_size(cond); idx<count; ++idx)
+				if(*reinterpret_cast<byte_t*>(cond+idx))
+					return;
+			inst->jump(*reinterpret_cast<size_t*>(data));
 		}
 	};
 

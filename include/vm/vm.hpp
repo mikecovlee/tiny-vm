@@ -78,6 +78,10 @@ namespace vm {
 		{
 			return m_stack.top();
 		}
+		size_t get_size(byte_t* ptr)
+		{
+			return m_stack.size_of(ptr);
+		}
 		void jump(size_t index)
 		{
 			m_pc=index;
@@ -127,6 +131,7 @@ namespace vm {
 					byte_t* buffer=alloc->malloc(count);
 					for(size_t i=0; i<count; ++i)
 						buffer[i]=::fgetc(f);
+					to_local_endian(buffer, count);
 					assembly.emplace_back(ptr, buffer);
 				}
 				else
@@ -136,7 +141,7 @@ namespace vm {
 		}
 		void interpret()
 		{
-			for(instance->rst_pc();instance->get_pc()<assembly.size();instance->inc_pc())
+			for(instance->rst_pc(); instance->get_pc()<assembly.size(); instance->inc_pc())
 				assembly[instance->get_pc()].first->execute(assembly[instance->get_pc()].second, instance);
 		}
 	};

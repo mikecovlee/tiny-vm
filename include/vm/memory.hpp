@@ -228,4 +228,35 @@ namespace vm {
 			return *reinterpret_cast<size_t *>(ptr - sizeof(size_t));
 		}
 	};
+	/*
+		This Virtual Machine uses MSB.
+		So when VM reads the bytecode, it will convert the VM endian to local endian.
+		And when compiler generate bytecode, it must convert the the local endian to VM endian so that VM can read it.
+	*/
+	inline bool is_big_endian()
+	{
+		std::uint32_t i=1;
+		std::uint8_t* p=reinterpret_cast<std::uint8_t*>(&i);
+		return *p==0;
+	}
+	inline void to_vm_endian(byte_t* ptr, size_t count, allocator_base* alloc=&default_alloc)
+	{
+		if(!is_big_endian()) {
+			byte_t* buff=alloc->malloc(count);
+			for(size_t idx=0; idx<count; ++idx)
+				buff[count-idx-1]=ptr[idx];
+			memcpy_n(buff, ptr, count);
+			alloc->free(buff);
+		}
+	}
+	inline void to_local_endian(byte_t* ptr, size_t count, allocator_base* alloc=&default_alloc)
+	{
+		if(!is_big_endian()) {
+			byte_t* buff=alloc->malloc(count);
+			for(size_t idx=0; idx<count; ++idx)
+				buff[idx]=ptr[count-idx-1];
+			memcpy_n(buff, ptr, count);
+			alloc->free(buff);
+		}
+	}
 }
