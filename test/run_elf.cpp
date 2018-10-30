@@ -25,8 +25,10 @@ int main(int argc, char** argv)
 	vm::instance_t instance(256);
 	vm::bytecode_interpreter interpreter(&vm::default_alloc, &tisc, &instance);
 	interpreter.assemble_bytecode(argv[1]);
-	auto ts=get_time();
-	interpreter.interpret();
-	::printf("Time spend: %u\n", get_time()-ts);
+	while(true) {
+		auto ts=get_time();
+		interpreter.interpret();
+		::printf("Time spend: %u\n", get_time()-ts);
+	}
 	return 0;
 }

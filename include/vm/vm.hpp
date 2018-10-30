@@ -62,41 +62,41 @@ namespace vm {
 	class instance_t {
 	protected:
 		stack m_stack;
-		size_t m_pc=1;
+		size_t m_pc=0;
 	public:
 		instance_t()=delete;
 		instance_t(size_t stack_size, allocator_base* alloc=&default_alloc):m_stack(stack_size, alloc) {}
-		void pop()
+		inline void pop()
 		{
 			m_stack.pop();
 		}
-		void push(byte_t* data, size_t size)
+		inline void push(byte_t* data, size_t size)
 		{
 			memcpy_n(data, m_stack.push(size), size);
 		}
-		byte_t* top()
+		inline byte_t* top()
 		{
 			return m_stack.top();
 		}
-		size_t get_size(byte_t* ptr)
+		inline size_t get_size(byte_t* ptr)
 		{
 			return m_stack.size_of(ptr);
 		}
-		void jump(size_t index)
+		inline void jump(size_t index)
 		{
 			m_pc=index;
 		}
-		void rst_pc()
+		inline void rst_pc()
 		{
-			m_pc=1;
+			m_pc=0;
 		}
-		void inc_pc()
+		inline void inc_pc()
 		{
 			++m_pc;
 		}
-		size_t get_pc()
+		inline size_t& get_pc()
 		{
-			return m_pc-1;
+			return m_pc;
 		}
 	};
 	class bytecode_interpreter final {
@@ -141,8 +141,13 @@ namespace vm {
 		}
 		void interpret()
 		{
-			for(instance->rst_pc(); instance->get_pc()<assembly.size(); instance->inc_pc())
-				assembly[instance->get_pc()].first->execute(assembly[instance->get_pc()].second, instance);
+			instance->rst_pc();
+			size_t count=assembly.size();
+			for(size_t& pc=instance->get_pc(); pc<count;) {
+				auto& it=assembly[pc];
+				instance->inc_pc();
+				it.first->execute(it.second, instance);
+			}
 		}
 	};
 }
